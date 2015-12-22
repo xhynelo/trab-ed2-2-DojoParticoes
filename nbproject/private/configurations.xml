@@ -13,6 +13,8 @@
       <in>lista_clientes.h</in>
       <in>nomes.c</in>
       <in>nomes.h</in>
+      <in>reservatorio.c</in>
+      <in>reservatorio.h</in>
       <in>test_geracao_particoes.c</in>
       <in>ufftest.h</in>
     </df>
@@ -22,7 +24,7 @@
     <conf name="Default" type="0">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <platform>4</platform>
+        <platform>3</platform>
       </toolsSet>
       <compile>
         <compiledirpicklist>
