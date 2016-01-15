@@ -1,0 +1,1 @@
+make.exe: *** No rule to make target `build/encadeamento_exterior_completo.o', needed by `main'.  Stop.
