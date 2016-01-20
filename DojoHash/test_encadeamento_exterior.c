@@ -321,7 +321,7 @@ if (!skip) {
 	libera_clientes(tab_cliente_saida);
 }
 
-_TEST("Insercao de registro no espaco vazio deixado por registro excluido");
+TEST("Insercao de registro no espaco vazio deixado por registro excluido");
 if (!skip) {
 	ListaCompartimentos *tab_hash, *tab_hash_saida;
 	ListaClientes *tab_cliente, *tab_cliente_saida;
@@ -368,7 +368,7 @@ if (!skip) {
 	libera_clientes(tab_cliente_saida);
 }
 
-_TEST("Exclusao de chave inexistente");
+TEST("Exclusao de chave inexistente");
 if (!skip) {
 	ListaCompartimentos *tab_hash, *tab_hash_saida;
 	ListaClientes *tab_cliente, *tab_cliente_saida;
@@ -407,7 +407,7 @@ if (!skip) {
 	libera_clientes(tab_cliente_saida);
 }
 
-_TEST("Exclusao do primeiro noh da lista encadeada de um determinado compartimento");
+TEST("Exclusao do primeiro noh da lista encadeada de um determinado compartimento");
 if (!skip) {
 	ListaCompartimentos *tab_hash, *tab_hash_saida;
 	ListaClientes *tab_cliente, *tab_cliente_saida;
@@ -447,7 +447,7 @@ if (!skip) {
 	libera_clientes(tab_cliente_saida);
 }
 
-_TEST("Exclusao do ultimo noh da lista encadeada de um determinado compartimento");
+TEST("Exclusao do ultimo noh da lista encadeada de um determinado compartimento");
 if (!skip) {
 	ListaCompartimentos *tab_hash, *tab_hash_saida;
 	ListaClientes *tab_cliente, *tab_cliente_saida;
