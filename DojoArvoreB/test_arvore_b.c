@@ -325,7 +325,7 @@ if (!skip) {
 	ASSERT_TRUE(encontrou);
 }
 
-TEST("Insercao 1 em arvore de altura H = 1, sem particionamento");
+_TEST("Insercao 1 em arvore de altura H = 1, sem particionamento");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h1();
@@ -349,7 +349,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Insercao 2 em arvore de altura H = 2, sem particionamento");
+_TEST("Insercao 2 em arvore de altura H = 2, sem particionamento");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2();
@@ -398,7 +398,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Insercao 3 em arvore de altura H = 2. Exige particionamento de uma pagina folha");
+_TEST("Insercao 3 em arvore de altura H = 2. Exige particionamento de uma pagina folha");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2_cheia();
@@ -454,7 +454,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Insercao 4 em arvore de altura H = 2, chave de registro ja existe -- nao inserir");
+_TEST("Insercao 4 em arvore de altura H = 2, chave de registro ja existe -- nao inserir");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2();
@@ -501,7 +501,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Insercao 5 em arvore de altura H = 1 cheia, que causa aumento na altura da arvore");
+_TEST("Insercao 5 em arvore de altura H = 1 cheia, que causa aumento na altura da arvore");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h1_cheia();
@@ -539,7 +539,7 @@ if (!skip) {
 	free(tabMetadadosSaida);
 }
 
-TEST("Exclusao 1 em arvore de altura H = 2 cheia, nao eh necessario concatenacao");
+_TEST("Exclusao 1 em arvore de altura H = 2 cheia, nao eh necessario concatenacao");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2_cheia();
@@ -588,7 +588,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Exclusao 2 em arvore de altura H = 2, nao eh necessario concatenacao");
+_TEST("Exclusao 2 em arvore de altura H = 2, nao eh necessario concatenacao");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2_cheia();
@@ -637,7 +637,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Exclusao 3 em arvore de altura H = 2, eh necessario redistribuicao");
+_TEST("Exclusao 3 em arvore de altura H = 2, eh necessario redistribuicao");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2();
@@ -682,7 +682,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Exclusao 4 em arvore de altura H = 2 cheia, eh necessario redistribuicao");
+_TEST("Exclusao 4 em arvore de altura H = 2 cheia, eh necessario redistribuicao");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2_cheia();
@@ -731,7 +731,7 @@ if (!skip) {
 	libera_nos(tabDadosSaida);
 }
 
-TEST("Exclusao 5 em arvore de altura H = 2 cheia, eh necessario concatenacao");
+_TEST("Exclusao 5 em arvore de altura H = 2 cheia, eh necessario concatenacao");
 if (!skip) {
 	int pos = INT_MAX;
 	monta_arvore_h2();
