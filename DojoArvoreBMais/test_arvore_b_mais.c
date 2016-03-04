@@ -300,13 +300,12 @@ if (!skip) {
     monta_arvore_h2();
 
     pos = busca(20, NOME_ARQUIVO_METADADOS, NOME_ARQUIVO_INDICE, NOME_ARQUIVO_DADOS, &pont_folha, &encontrou);
-    printf("pont_folha %d\0", &pont_folha);
     ASSERT_EQUAL(1 * tamanho_no_folha(), pont_folha);
     ASSERT_EQUAL(1, pos);
     ASSERT_TRUE(encontrou);
 }
 
-_TEST("Busca 4 -- chave nao esta na arvore");
+TEST("Busca 4 -- chave nao esta na arvore");
 if (!skip) {
     int pont_folha = INT_MAX, encontrou = INT_MAX, pos = INT_MAX;
     monta_arvore_h2();
@@ -317,7 +316,7 @@ if (!skip) {
     ASSERT_FALSE(encontrou);
 }
 
-_TEST("Busca 5 -- chave esta na arvore");
+TEST("Busca 5 -- chave esta na arvore");
 if (!skip) {
     int pont_folha = INT_MAX, encontrou = INT_MAX, pos = INT_MAX;
     monta_arvore_h3();
@@ -328,7 +327,7 @@ if (!skip) {
     ASSERT_TRUE(encontrou);
 }
 
-_TEST("Busca 6 -- chave nao esta na arvore");
+TEST("Busca 6 -- chave nao esta na arvore");
 if (!skip) {
     int pont_folha = INT_MAX, encontrou = INT_MAX, pos = INT_MAX;
     monta_arvore_h3();
