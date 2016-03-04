@@ -2,6 +2,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
+#define D 2
+
 #include <limits.h>
 
 #include "arvore_b_mais.h"
@@ -69,8 +71,34 @@ int busca(int cod_cli, char *nome_arquivo_metadados, char *nome_arquivo_indice,
 }
 
 int insere(int cod_cli, char *nome_cli, char *nome_arquivo_metadados, char *nome_arquivo_indice, char *nome_arquivo_dados) {
-    //TODO: Inserir aqui o codigo do algoritmo de insercao
-    return INT_MAX;
+    int pont_folha, encontrou, pos = busca(cod_cli, nome_arquivo_metadados, nome_arquivo_indice, nome_arquivo_dados, &pont_folha, &encontrou);
+    if (encontrou)
+        return -1;
+    
+    Cliente * c = cliente(cod_cli, nome_cli);
+    
+    FILE * dados = fopen(nome_arquivo_dados, "r+b");
+    fseek(dados, pont_folha, SEEK_SET);
+    NoFolha * f = le_no_folha(dados);
+    
+    if (f->m < 2 * D) {
+        int i;
+        for (i = f->m; i >= pos; i--) {
+            f->clientes[i + 1] = f->clientes[i];
+        }
+        f->clientes[pos] = c;
+        f->m++;
+        fseek(dados, pont_folha, SEEK_SET);
+        printf("pont_folha: %d\n", pont_folha);
+        salva_no_folha(f, dados);
+        fclose(dados);
+        imprime_no_folha(f);
+        return pont_folha;
+    } else {
+        //TODO: particionar
+        printf("TEM QUE PARTICIONAR\n\0");
+    }
+
 }
 
 int exclui(int cod_cli, char *nome_arquivo_metadados, char *nome_arquivo_indice, char *nome_arquivo_dados) {

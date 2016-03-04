@@ -339,7 +339,7 @@ if (!skip) {
 }
 
 
-_TEST("Insercao 1 em arvore de altura H = 1, sem particionamento");
+TEST("Insercao 1 em arvore de altura H = 1, sem particionamento");
 if (!skip) {
     int pos = INT_MAX;
     monta_arvore_h1();
@@ -359,13 +359,23 @@ if (!skip) {
             cliente(11, "Vanessa"),
             cliente(13, "Ana Maria")));
     ListaNosFolhas *tabDadosSaida = le_nos_folhas(NOME_ARQUIVO_DADOS);
+    
+//    printf("----------tabDados--------------\n\0");
+//    int i;
+//    for (i = 0; i < tabDados->qtd; i++) {
+//        imprime_no_folha(tabDados->lista[i]);
+//    }
+//    printf("----------tabDadosSaida---------\n\0");
+//    for (i = 0; i < tabDadosSaida->qtd; i++) {
+//        imprime_no_folha(tabDadosSaida->lista[i]);
+//    }
 
     ASSERT_EQUAL_CMP(tabDados, tabDadosSaida, cmp_nos_folhas);
     libera_nos_folhas(tabDados);
     libera_nos_folhas(tabDadosSaida);
 }
 
-_TEST("Insercao 2 em arvore de altura H = 2, sem particionamento");
+TEST("Insercao 2 em arvore de altura H = 2, sem particionamento");
 if (!skip) {
     int pos = INT_MAX;
     monta_arvore_h2();
@@ -411,6 +421,16 @@ if (!skip) {
             );
     ListaNosFolhas *tabDadosSaida = le_nos_folhas(NOME_ARQUIVO_DADOS);
 
+    printf("----------tabDados--------------\n\0");
+    int i;
+    for (i = 0; i < tabDados->qtd; i++) {
+        imprime_no_folha(tabDados->lista[i]);
+    }
+    printf("----------tabDadosSaida---------\n\0");
+    for (i = 0; i < tabDadosSaida->qtd; i++) {
+        imprime_no_folha(tabDadosSaida->lista[i]);
+    }
+    
     ASSERT_EQUAL_CMP(tabDados, tabDadosSaida, cmp_nos_folhas);
     libera_nos_folhas(tabDados);
     libera_nos_folhas(tabDadosSaida);
@@ -474,7 +494,7 @@ if (!skip) {
     libera_nos_folhas(tabDadosSaida);
 }
 
-_TEST("Insercao 4 em arvore de altura H = 2, chave de registro ja existe -- nao inserir");
+TEST("Insercao 4 em arvore de altura H = 2, chave de registro ja existe -- nao inserir");
 if (!skip) {
     int pos = INT_MAX;
     monta_arvore_h2();
