@@ -74,13 +74,13 @@ int insere(int cod_cli, char *nome_cli, char *nome_arquivo_metadados, char *nome
     int pont_folha, encontrou, pos = busca(cod_cli, nome_arquivo_metadados, nome_arquivo_indice, nome_arquivo_dados, &pont_folha, &encontrou);
     if (encontrou)
         return -1;
-    
+
     Cliente * c = cliente(cod_cli, nome_cli);
-    
+
     FILE * dados = fopen(nome_arquivo_dados, "r+b");
     fseek(dados, pont_folha, SEEK_SET);
     NoFolha * f = le_no_folha(dados);
-    
+
     if (f->m < 2 * D) {
         int i;
         for (i = f->m; i >= pos; i--) {
@@ -95,8 +95,67 @@ int insere(int cod_cli, char *nome_cli, char *nome_arquivo_metadados, char *nome
         imprime_no_folha(f);
         return pont_folha;
     } else {
-        //TODO: particionar
-        printf("TEM QUE PARTICIONAR\n\0");
+        // Particionamento:
+        // nova folha para o particionamento
+        NoFolha * nova = no_folha(D + 1, f->pont_pai, f->pont_prox);
+
+        // estrutura de dados auxiliar com os registros existentes e o novo ordenados
+        Cliente ** array = (Cliente **) malloc(sizeof (Cliente *) * (2 * D + 1));
+        int i;
+        for (i = 0; i < pos; i++) {
+            array[i] = f->clientes[i];
+        }
+        array[pos] = c;
+        for (i = pos; i < f->m; i++) {
+            array[i + 1] = f->clientes[i];
+        }
+
+        // insere os registros na nova folha
+        for (i = D; i <= 2 * D; i++) {
+            nova->clientes[i - D] = array[i];
+        }
+
+        // atualiza os registros da folha velha
+        f->m = D;
+        for (i = 0; i < D; i++) {
+            f->clientes[i] = array[i];
+        }
+        for (; i < 2 * D; i++) {
+            f->clientes[i] = NULL;
+        }
+
+        // libera o array
+        for (i = 0; i < 2 * D; i++) {
+            free(array[i]);
+        }
+        free(array);
+
+        FILE * metadados = fopen(nome_arquivo_metadados, "r+b");
+        Metadados * meta = le_metadados(metadados);
+        int pont_nova = meta->pont_prox_no_folha_livre;
+        //TODO atualizar meta->pont_prox_no_folha_livre
+        salva_metadados(meta, metadados);
+        fclose(metadados);
+
+        free(meta);
+
+        fseek(dados, pont_nova, SEEK_SET);
+        salva_no_folha(nova, dados);
+
+        f->pont_prox = pont_nova;
+        fseek(dados, pont_folha, SEEK_SET);
+        salva_no_folha(f, dados);
+        fclose(dados);
+
+        propagarParticionamento(nome_arquivo_indice,
+                nova->clientes[0]->cod_cliente, f->pont_pai, pont_nova, 1);
+        imprime_no_folha(f);
+
+        libera_no_folha(f);
+        libera_no_folha(nova);
+        if (pos < D)
+            return pont_folha;
+        return pont_nova;
     }
 
 }
@@ -104,4 +163,16 @@ int insere(int cod_cli, char *nome_cli, char *nome_arquivo_metadados, char *nome
 int exclui(int cod_cli, char *nome_arquivo_metadados, char *nome_arquivo_indice, char *nome_arquivo_dados) {
     //TODO: Inserir aqui o codigo do algoritmo de remocao
     return INT_MAX;
+}
+
+/**
+ * Após a inserção de um novo nó folha ou novo nó interno é necessario propagar para os nós acima
+ * @param arquivo_indice arquivo de indice devidamente aberto
+ * @param chave do nó que deve ser inserido
+ * @param pont_pai ponteiro para o nó pai
+ * @param pont ponteiro para o nó que foi inserido
+ * @param aponta_folha flag se aponta folha ou não
+ */
+void propagarParticionamento(FILE * arquivo_indice, int chave, int pont_pai, int pont, int aponta_folha) {
+    //TODO: escrever função recursiva de propagação
 }
