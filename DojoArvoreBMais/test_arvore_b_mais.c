@@ -359,16 +359,16 @@ if (!skip) {
             cliente(11, "Vanessa"),
             cliente(13, "Ana Maria")));
     ListaNosFolhas *tabDadosSaida = le_nos_folhas(NOME_ARQUIVO_DADOS);
-    
-//    printf("----------tabDados--------------\n\0");
-//    int i;
-//    for (i = 0; i < tabDados->qtd; i++) {
-//        imprime_no_folha(tabDados->lista[i]);
-//    }
-//    printf("----------tabDadosSaida---------\n\0");
-//    for (i = 0; i < tabDadosSaida->qtd; i++) {
-//        imprime_no_folha(tabDadosSaida->lista[i]);
-//    }
+
+    //    printf("----------tabDados--------------\n\0");
+    //    int i;
+    //    for (i = 0; i < tabDados->qtd; i++) {
+    //        imprime_no_folha(tabDados->lista[i]);
+    //    }
+    //    printf("----------tabDadosSaida---------\n\0");
+    //    for (i = 0; i < tabDadosSaida->qtd; i++) {
+    //        imprime_no_folha(tabDadosSaida->lista[i]);
+    //    }
 
     ASSERT_EQUAL_CMP(tabDados, tabDadosSaida, cmp_nos_folhas);
     libera_nos_folhas(tabDados);
@@ -430,13 +430,13 @@ if (!skip) {
     for (i = 0; i < tabDadosSaida->qtd; i++) {
         imprime_no_folha(tabDadosSaida->lista[i]);
     }
-    
+
     ASSERT_EQUAL_CMP(tabDados, tabDadosSaida, cmp_nos_folhas);
     libera_nos_folhas(tabDados);
     libera_nos_folhas(tabDadosSaida);
 }
 
-_TEST("Insercao 3 em arvore de altura H = 2. Exige particionamento de uma pagina folha");
+TEST("Insercao 3 em arvore de altura H = 2. Exige particionamento de uma pagina folha");
 if (!skip) {
     int pos = INT_MAX;
     // Arvore tem um dos nohs folha cheio. E eh neste noh que a insercao ocorrera
@@ -448,6 +448,10 @@ if (!skip) {
     Metadados *tabMetadados = metadados(0, 0, tamanho_no_interno(), 4 * tamanho_no_folha());
     Metadados *tabMetadadosSaida = le_arq_metadados(NOME_ARQUIVO_METADADOS);
     ASSERT_EQUAL_CMP(tabMetadados, tabMetadadosSaida, cmp_metadados);
+    printf("------------- tabMetadados\n");
+    imprime_metadados(tabMetadados);
+    printf("------------- tabMetadadosSaida\n");
+    imprime_metadados(tabMetadadosSaida);
     free(tabMetadados);
     free(tabMetadadosSaida);
 
@@ -464,6 +468,11 @@ if (!skip) {
             );
     ListaNosInternos *tabIndiceSaida = le_nos_internos(NOME_ARQUIVO_INDICE);
     ASSERT_EQUAL_CMP(tabIndice, tabIndiceSaida, cmp_nos_internos);
+    printf("------------- tabIndice\n");
+    imprime_nos_internos(tabIndice);
+    printf("------------- tabIndiceSaida\n");
+    imprime_nos_internos(tabIndiceSaida);
+
     libera_nos_internos(tabIndice);
     libera_nos_internos(tabIndiceSaida);
 
@@ -487,9 +496,14 @@ if (!skip) {
             cliente(23, "Bruno")
             )
             );
+    
     ListaNosFolhas *tabDadosSaida = le_nos_folhas(NOME_ARQUIVO_DADOS);
-
     ASSERT_EQUAL_CMP(tabDados, tabDadosSaida, cmp_nos_folhas);
+    printf("------------- tabDados\n");
+    imprime_nos_folhas(tabDados);
+    printf("------------- tabDadosSaida\n");
+    imprime_nos_folhas(tabDadosSaida);
+
     libera_nos_folhas(tabDados);
     libera_nos_folhas(tabDadosSaida);
 }
