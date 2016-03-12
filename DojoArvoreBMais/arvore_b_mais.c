@@ -79,31 +79,37 @@ int busca(int cod_cli, char *nome_arquivo_metadados, char *nome_arquivo_indice,
  * @param aponta_folha flag se aponta folha ou não
  */
 void propagarParticionamento(FILE * arquivo_indice, FILE * metadados, int chave_nova, int pont_pagina, int pont_nova, int aponta_folha) {
-    //TODO: falta testar se a página existe ou se é a raiz que está propagando para cima
+    //TODO: falta testar se a página existe ou se é a raiz que está propagando para cima e atualizar os metadados neste caso
     fseek(arquivo_indice, pont_pagina, SEEK_SET);
     NoInterno * pagina = le_no_interno(arquivo_indice);
-
+    printf("     estrutura de dados auxiliar para ordenar o nó\n");
     // estrutura de dados auxiliar para ordenar o nó
-    int * chaves = (int *) malloc(sizeof (int) * (2 * D + 1));
-    int * ponts = (int *) malloc(sizeof (int) * (2 * D + 2));
-
+    //int * chaves = (int*)malloc((sizeof (int)) * (2 * D + 1));
+    int chaves[/*(2 * D) + 1*/1];
+    int ponts[/*(2 * D) + 2*/1];
+    //int * ponts = (int*)malloc((sizeof (int)) * (2 * D + 2));
     ponts[0] = pagina->p[0];
+    printf("     1\n");
     int i;
     for (i = 0; (i < pagina->m)&&(pagina->chaves[i] < chave_nova); i++) {
         chaves[i] = pagina->chaves[i];
         ponts[i + 1] = pagina->p[i + 1];
     }
+    printf("     2\n");
     chaves[i] = chave_nova;
     ponts[i + 1] = pont_nova;
     for (; i < pagina->m; i++) {
         chaves[i + 1] = pagina->chaves[i];
         ponts[i + 2] = pagina->p[i + 1];
     }
+    printf("     3\n");
     for (; i < (2 * D); i++) {
         chaves[i + 1] = -1;
         ponts[i + 2] = -1;
     }
 
+    printf("     atualiza pagina\n");
+    // estrutura de dados auxiliar para ordenar o nó
     pagina->m++;
     free(&(pagina->chaves));
     free(&(pagina->p));
@@ -111,6 +117,7 @@ void propagarParticionamento(FILE * arquivo_indice, FILE * metadados, int chave_
     pagina->p = ponts;
 
     if (pagina->m > (2 * D)) {
+        printf("     cria um novo nó interno\n");
         // cria um novo nó interno
         NoInterno * novo = no_interno(D, pagina->pont_pai, pagina->aponta_folha);
         for (i = 0; i < D; i++) {
@@ -120,18 +127,40 @@ void propagarParticionamento(FILE * arquivo_indice, FILE * metadados, int chave_
         novo->p[i] = ponts[D + i + 1];
         pagina->m = D;
 
+        printf("     le os metadados\n");
         // le os metadados
         Metadados * meta = le_metadados(metadados);
         int pont_novo = meta->pont_prox_no_interno_livre;
 
-        // salva o novo nó
-        fseek(arquivo_indice, pont_novo, SEEK_SET);
-        salva_no_interno(novo, arquivo_indice);
-
+        if (pagina->pont_pai < 0) {
+            printf("     nó é raiz e há aumento de altura na arvore\n");
+            // nó é raiz e há aumento de altura na arvore
+            NoInterno * raiz = no_interno(1, -1, pagina->aponta_folha);
+            raiz->chaves[0] = chaves[D];
+            raiz->p[0] = pont_pagina;
+            raiz->p[1] = pont_novo;
+            // salva o novo nó
+            fseek(arquivo_indice, pont_novo, SEEK_SET);
+            salva_no_interno(novo, arquivo_indice);
+            fseek(arquivo_indice, 0, SEEK_END);
+            meta->pont_raiz = ftell(arquivo_indice);
+            salva_no_interno(raiz, arquivo_indice);
+            novo->pont_pai = meta->pont_raiz;
+            pagina->pont_pai = meta->pont_raiz;
+            fseek(arquivo_indice, pont_novo, SEEK_SET);
+            salva_no_interno(novo, arquivo_indice);
+        } else {
+            printf("     salva o novo nó\n");
+            // salva o novo nó
+            fseek(arquivo_indice, pont_novo, SEEK_SET);
+            salva_no_interno(novo, arquivo_indice);
+        }
+        printf("     atualiza o nó que foi particionado\n");
         // atualiza o nó que foi particionado
         fseek(arquivo_indice, pont_pagina, SEEK_SET);
         salva_no_interno(pagina, arquivo_indice);
 
+        printf("     atualiza os ponteiros dos filhos\n");
         // atualiza os ponteiros dos filhos
         if (!(novo->aponta_folha)) {
             for (i = 0; i <= novo->m; i++) {
@@ -143,6 +172,7 @@ void propagarParticionamento(FILE * arquivo_indice, FILE * metadados, int chave_
             }
         }
 
+        printf("     atualiza os metadados\n");
         // atualiza os metadados
         fseek(arquivo_indice, 0, SEEK_END);
         meta->pont_prox_no_interno_livre = ftell(arquivo_indice);
@@ -150,8 +180,10 @@ void propagarParticionamento(FILE * arquivo_indice, FILE * metadados, int chave_
         salva_metadados(meta, metadados);
         free(meta);
 
+        printf("     propaga o particionamento recursivamente\n");
         // propaga o particionamento recursivamente
-        propagarParticionamento(arquivo_indice, metadados, chaves[D], novo->pont_pai, pont_novo, 1);
+        if (pagina->pont_pai > -1)
+            propagarParticionamento(arquivo_indice, metadados, chaves[D], novo->pont_pai, pont_novo, 1);
     } else {
         fseek(arquivo_indice, pont_pagina, SEEK_SET);
         salva_no_interno(pagina, arquivo_indice);

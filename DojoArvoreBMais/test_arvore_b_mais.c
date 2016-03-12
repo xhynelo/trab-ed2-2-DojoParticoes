@@ -558,7 +558,7 @@ if (!skip) {
     libera_nos_folhas(tabDadosSaida);
 }
 
-_TEST("Insercao 5 em arvore de altura H = 1 cheia, que causa aumento na altura da arvore");
+TEST("Insercao 5 em arvore de altura H = 1 cheia, que causa aumento na altura da arvore");
 if (!skip) {
     int pos = INT_MAX;
     monta_arvore_h1_cheia();
